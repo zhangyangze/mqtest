@@ -28,7 +28,7 @@ public class RabbitMQConsumer {
 
                 /**设置地址*/
         Address[] addresses = new Address[]{
-                new Address(IP_ADDRESS,PORT)
+            new Address(IP_ADDRESS,PORT)
         };
 
         try{
@@ -55,6 +55,7 @@ public class RabbitMQConsumer {
                 }
             };
             channel.basicConsume(QUEUE_NAME,consumer);
+            /**等待回调函数执行完毕之后，关闭资源*/
             TimeUnit.SECONDS.sleep(5);
 
             channel.close();

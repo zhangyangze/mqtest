@@ -20,7 +20,7 @@ public class RabbitMQProducer {
 
     /**交换机名称*/
     private static final String EXCHANGE_NAME = "exchange_demo";
-    /**路由键*/
+    /**路由键 BindingKey与RoutingKey 可以看做是一个沙雕东西*/
     private static final String ROUTING_KEY = "routingKey_demo";
     /**队列名*/
     private static final String QUEUE_NAME= "quere_demo";
@@ -45,6 +45,17 @@ public class RabbitMQProducer {
             /**创建信道*/
             channel = connection.createChannel();
             /**创建交换器*/
+            /**
+             * 交换器器类型：
+             *  fanout: 把所有发送到该交换器的消息路由到所有与该交换绑定的队列中
+             *  direct: 把消息路由到 BindingKey与RoutingKey 完全匹配的队列中
+             *  topic: 和direct差不多，只是BindingKey与RoutingKey是模糊匹配
+             *          RoutingKey: 用"."分隔字符串，被"."分隔的每一段独立的字符串为一个单词
+             *          BindingKey: 比RoutingKey多两个，"*"和"#"用于模糊匹配
+             *              "*": 用于匹配一个单词
+             *              "#": 用于匹配多规格单词，可以是零个
+             *  header: 不依赖于路由键的匹配规则来路由消息，而是根据发送的消息内容中的headers 属性进行匹配
+             */
             /**创建一个type=direct,持久化的，非自动删除的交换器EXCHANGE_NAME*/
             channel.exchangeDeclare(EXCHANGE_NAME,"direct",true,false,null);
             /**创建一个 持久化，非排他，非自动化删除的队列QUEUE_NAME*/
